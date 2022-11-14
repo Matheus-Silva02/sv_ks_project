@@ -22,9 +22,25 @@ import k_and_s_pkg::*;
 
 );
 
-// added to remove warning from testbench
-// remove it
-assign ram_addr = 'd0;
-// remove 
+logic [15:0] bus_a;
+logic [15:0] bus_b;
+logic [15:0] bus_c;
+logic [15:0] ula_out;
+
+
+always_ff @(posedge clk) begin
+case (c_sel)
+    0 : bus_c = ula_out;
+    1 : bus_c = data_in;
+endcase
+end
+
+
+always_ff @(posedge clk) begin
+    data_out = bus_a;
+end
+
+
+//assign ram_addr = 'd0;
 
 endmodule : data_path
