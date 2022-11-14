@@ -20,25 +20,58 @@ import k_and_s_pkg::*;
     output logic             [15:0] data_out,
     input  logic             [15:0] data_in
 
+
 );
 
 logic [15:0] bus_a;
 logic [15:0] bus_b;
 logic [15:0] bus_c;
 logic [15:0] ula_out;
+logic [4:0] mem_addr;
+logic [4:0] program_counter;
+logic [1:0] a_addr;
+logic [1:0] b_addr;
+logic [1:0] c_addr;
 
-
-always_ff @(posedge clk) begin
-case (c_sel)
-    0 : bus_c = ula_out;
-    1 : bus_c = data_in;
-endcase
+always @(posedge clk) begin // C select
+if (c_sel) begin
+    bus_c = data_in; 
+end else begin 
+    bus_c = ula_out; 
+end      
 end
 
-
-always_ff @(posedge clk) begin
+always_ff @(posedge clk) begin // bus a to ram
     data_out = bus_a;
 end
+
+always_ff @(posedge clk)begin //Pc enable
+if (branch) begin
+  program_counter=mem_addr; 
+end else begin
+  program_counter++;
+end
+end
+
+always @(posedge clk)begin // addr select
+if (addr_sel) begin
+  ram_addr=mem_addr; 
+end else begin
+  ram_addr=program_counter;
+end
+end
+
+always_ff @(posedge clk)begin //DECODE
+if(ir_enable)begin
+    mem_addr=data_in[15:11]; //Endereços que o mem_addr pega
+    a_addr=data_in[10:9];
+    b_addr=data_in[8:7];
+    c_addr=data_in[6:5];
+end 
+end
+
+
+
 
 
 //assign ram_addr = 'd0;
