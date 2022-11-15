@@ -3,6 +3,9 @@ import k_and_s_pkg::*;
 (
     input  logic                    rst_n,
     input  logic                    clk,
+    input  logic              [1:0] addr_A,
+    input  logic              [1:0] addr_B,
+    input  logic              [1:0] addr_C,
     input  logic                    branch,
     input  logic                    pc_enable,
     input  logic                    ir_enable,
@@ -22,28 +25,57 @@ import k_and_s_pkg::*;
 
 
 );
-
-logic [15:0] bus_a;
-logic [15:0] bus_b;
-logic [15:0] bus_c;
-logic [15:0] ula_out;
+logic [15:0] A;
+logic [15:0] B;
+logic [15:0] C;
 logic [4:0] mem_addr;
 logic [4:0] program_counter;
-logic [1:0] a_addr;
-logic [1:0] b_addr;
-logic [1:0] c_addr;
+//logic [1:0] a_addr;
+//logic [1:0] b_addr;
+//logic [1:0] c_addr;
+logic [15:0] ula_out;
+logic ula_uo;
+logic ula_so;
+logic ula_zero;
+logic ula_neg;
 
-always @(posedge clk) begin // C select
-if (c_sel) begin
-    bus_c = data_in; 
-end else begin 
-    bus_c = ula_out; 
-end      
+always_ff @(posedge clk) begin // A to ram
+    data_out <= A;
 end
 
-always_ff @(posedge clk) begin // bus a to ram
-    data_out = bus_a;
+always_ff @(posedge clk) begin
+  if (flags_reg_enable) begin
+    unsigned_overflow <= ula_uo;
+    signed_overflow <= ula_so;
+    zero_op <= ula_zero;
+    neg_op <= ula_neg;
+  end
 end
+assign C = (c_sel?data_in:ula_out);
+
+always_comb begin
+  case(operation)
+    2'b00: {unsigned_overflow,ula_out} = A + B;
+    2'b01: {unsigned_overflow,ula_out} = A - B;
+    2'b10: {signed_overflow,ula_out} = A + B;
+    2'b11: {signed_overflow,ula_out} = A - B;
+  endcase
+end
+
+assign ula_zero = ((ula_out=='d0)?1'b1:1'b0);
+assign ula_neg = ula_out[15];
+
+//banco de reg
+
+logic [15:0] rf [16] = '{ default: 8'd87}; 
+
+always_ff @(posedge clk) begin
+  if (write_reg_enable)
+    rf[addr_C] <= C;
+end
+assign A = rf[addr_A];
+assign B = rf[addr_B];
+
 
 always_ff @(posedge clk)begin //Pc enable
 if (branch) begin
@@ -61,19 +93,5 @@ end else begin
 end
 end
 
-always_ff @(posedge clk)begin //DECODE
-if(ir_enable)begin
-    mem_addr=data_in[15:11]; //Endereços que o mem_addr pega
-    a_addr=data_in[10:9];
-    b_addr=data_in[8:7];
-    c_addr=data_in[6:5];
-end 
-end
-
-
-
-
-
-//assign ram_addr = 'd0;
 
 endmodule : data_path
