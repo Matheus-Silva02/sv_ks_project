@@ -3,9 +3,6 @@ import k_and_s_pkg::*;
 (
     input  logic                    rst_n,
     input  logic                    clk,
-    input  logic              [1:0] addr_A,
-    input  logic              [1:0] addr_B,
-    input  logic              [1:0] addr_C,
     input  logic                    branch,
     input  logic                    pc_enable,
     input  logic                    ir_enable,
@@ -30,12 +27,11 @@ logic [15:0] B;
 logic [15:0] C;
 logic [4:0] mem_addr;
 logic [4:0] program_counter;
-//logic [1:0] a_addr;
-//logic [1:0] b_addr;
-//logic [1:0] c_addr;
+logic [1:0] a_addr;
+logic [1:0] b_addr;
+logic [1:0] c_addr;
 logic [15:0] ula_out;
-logic ula_uo;
-logic ula_so;
+logic cc;
 logic ula_zero;
 logic ula_neg;
 
@@ -45,8 +41,6 @@ end
 
 always_ff @(posedge clk) begin
   if (flags_reg_enable) begin
-    unsigned_overflow <= ula_uo;
-    signed_overflow <= ula_so;
     zero_op <= ula_zero;
     neg_op <= ula_neg;
   end
@@ -55,10 +49,14 @@ assign C = (c_sel?data_in:ula_out);
 
 always_comb begin
   case(operation)
-    2'b00: {unsigned_overflow,ula_out} = A + B;
-    2'b01: {unsigned_overflow,ula_out} = A - B;
-    2'b10: {signed_overflow,ula_out} = A + B;
-    2'b11: {signed_overflow,ula_out} = A - B;
+    2'b00: begin {cc,ula_out} = A[14:0] + B[14:0];
+                 {unsigned_overflow,ula_out[15]} = A[15] + B[15]; 
+                 signed_overflow = unsigned_overflow ^ cc;     end
+    2'b01: begin {cc,ula_out} = A[14:0] - B[14:0];
+                 {unsigned_overflow,ula_out[15]} = A[15] - B[15]; 
+                 signed_overflow = unsigned_overflow ^ cc;    end
+    2'b10: {ula_out} = A | B;
+    2'b11: {ula_out} = A & B;
   endcase
 end
 
@@ -67,15 +65,12 @@ assign ula_neg = ula_out[15];
 
 //banco de reg
 
-logic [15:0] rf [16] = '{ default: 8'd87}; 
-
 always_ff @(posedge clk) begin
-  if (write_reg_enable)
-    rf[addr_C] <= C;
-end
-assign A = rf[addr_A];
-assign B = rf[addr_B];
-
+  if (write_reg_enable)begin
+  
+    end
+ end
+// fim do banco
 
 always_ff @(posedge clk)begin //Pc enable
 if (branch) begin
