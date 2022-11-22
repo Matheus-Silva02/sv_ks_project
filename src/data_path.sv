@@ -37,6 +37,10 @@ logic ov_f;
 logic sov_f;
 logic ula_zero;
 logic ula_neg;
+logic [15:0] R0;
+logic [15:0] R1;
+logic [15:0] R2;
+logic [15:0] R3;
 
 
 always_ff @(posedge clk) begin
@@ -86,9 +90,9 @@ assign ula_zero = ~|(ula_out);
 assign ula_neg = ula_out[15];
 
 always_comb begin  // DECODER
-     a_addr = 'd0;
-     b_addr = 'd0;
-     c_addr = 'd0;
+    //a_addr = 'd0; 
+    //b_addr = 'd0; 
+     //c_addr = 'd0; 
      mem_addr = 'd0;
      case(instruction[15:8])
         8'b1000_0001: begin  // LOAD
@@ -168,6 +172,30 @@ always_comb begin  // DECODER
      endcase
 end
 
+always_comb begin //Banco de registradores
+if(write_reg_enable) begin
+
+unique case(a_addr)
+    2'b00: R0=C;
+    2'b01: R1=C;
+    2'b10: R2=C;
+    2'b11: R3=C;
+endcase
+unique case(b_addr)
+    2'b00: R0=C;
+    2'b01: R1=C;
+    2'b10: R2=C;
+    2'b11: R3=C;
+endcase
+unique case(c_addr)
+    2'b00: R0=C;
+    2'b01: R1=C;
+    2'b10: R2=C;
+    2'b11: R3=C;
+endcase
+ end 
+end
+   
 always_ff @(posedge clk or negedge rst_n)begin //Pc enable
     if(!rst_n) begin
         program_counter <= 'd0;

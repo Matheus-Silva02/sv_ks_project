@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="864993387fs"></ZoomStartTime>
-      <ZoomEndTime time="865001323fs"></ZoomEndTime>
-      <Cursor1Time time="865000000fs"></Cursor1Time>
+      <ZoomStartTime time="388148500fs"></ZoomStartTime>
+      <ZoomEndTime time="415748501fs"></ZoomEndTime>
+      <Cursor1Time time="455000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="115"></ValueColumnWidth>
+      <ValueColumnWidth column_width="111"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="35" />
+   <WVObjectSize size="45" />
    <wvobject fp_name="/tb_k_and_s/rst_n" type="logic">
       <obj_property name="ElementShortName">rst_n</obj_property>
       <obj_property name="ObjectShortName">rst_n</obj_property>
@@ -169,5 +169,45 @@
    <wvobject fp_name="/tb_k_and_s/uut/control_unit_i/next_state" type="array">
       <obj_property name="ElementShortName">next_state[31:0]</obj_property>
       <obj_property name="ObjectShortName">next_state[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/A" type="array">
+      <obj_property name="ElementShortName">A[15:0]</obj_property>
+      <obj_property name="ObjectShortName">A[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/B" type="array">
+      <obj_property name="ElementShortName">B[15:0]</obj_property>
+      <obj_property name="ObjectShortName">B[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/C" type="array">
+      <obj_property name="ElementShortName">C[15:0]</obj_property>
+      <obj_property name="ObjectShortName">C[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/a_addr" type="array">
+      <obj_property name="ElementShortName">a_addr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">a_addr[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/b_addr" type="array">
+      <obj_property name="ElementShortName">b_addr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">b_addr[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/c_addr" type="array">
+      <obj_property name="ElementShortName">c_addr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">c_addr[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/R0" type="array">
+      <obj_property name="ElementShortName">R0[15:0]</obj_property>
+      <obj_property name="ObjectShortName">R0[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/R1" type="array">
+      <obj_property name="ElementShortName">R1[15:0]</obj_property>
+      <obj_property name="ObjectShortName">R1[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/R2" type="array">
+      <obj_property name="ElementShortName">R2[15:0]</obj_property>
+      <obj_property name="ObjectShortName">R2[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/R3" type="array">
+      <obj_property name="ElementShortName">R3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">R3[15:0]</obj_property>
    </wvobject>
 </wave_config>
