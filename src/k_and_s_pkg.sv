@@ -10,6 +10,8 @@ package k_and_s_pkg;
     I_OR,
     I_BRANCH,
     I_BZERO,
+    I_BOV,
+    I_BNOV,		
     I_BNZERO,
     I_BNEG,
     I_BNNEG,

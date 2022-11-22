@@ -21,40 +21,77 @@ import k_and_s_pkg::*;
     output logic                    halt
 );
 
-always_ff @(posedge clk) begin
-    if(decoded_instruction[15:13]== 3'b101) begin
-          case(decoded_instruction[11:8])
-              4'b1xxx:  operation[1:0]= 2'b00; //add     
-              4'bx1xx:  operation[1:0]= 2'b01; //sub     
-              4'bxx1x:  operation[1:0]= 2'b10; //and     
-              4'bxxx1:  operation[1:0]= 2'b11; //or     
-          endcase 
-    end
+typedef enum {
+    BUSCA_INSTR
+   ,REG_INSTR
+   ,DECODIFICA
+   ,LOAD_1
+   ,LOAD_2
+   ,HALT_P
+}state_t;
+
+state_t state;
+state_t next_state;
+
+always_ff @(posedge clk or negedge rst_n) begin
+    if(!rst_n)
+        state <= BUSCA_INSTR;
+    else
+        state <= next_state;
 end
 
-always_ff @(posedge clk) begin
-    if(decoded_instruction[15:13]== 3'b100) begin
-         if(decoded_instruction[12:9]== 4'bxxx1) begin
-               ir_enable = 1'b0;          
-               c_sel= 1'b1;    
-               write_reg_enable= 1'b1;  
-         end //load  
-    end
+always_comb begin
+    case(state)
+       BUSCA_INSTR: next_state = DECODIFICA;
+       DECODIFICA: next_state = BUSCA_INSTR;
+    endcase
 end
 
-
-always_ff @(posedge clk) begin
-    if(decoded_instruction[15]==1'b0) begin
-          case(decoded_instruction[10:8])
-              3'b1xx:  branch=1'b1;   
-              3'bx1x:  branch=1'b1;   
-              3'bxx1:  branch=1'b1;     
-          endcase 
-    end
-end
-
-
-
-
+always_comb begin
+      branch = 1'b0;       
+      pc_enable = 1'b0;         
+      ir_enable = 1'b0;       
+      write_reg_enable = 1'b0; 
+      addr_sel = 1'b0;    
+      c_sel = 1'b0;        
+      operation = 2'b00;   
+      flags_reg_enable = 1'b0; 
+      ram_write_enable = 1'b0; 
+      halt = 1'b0;
+      case(state)
+        BUSCA_INSTR: begin
+            next_state = REG_INSTR;
+        end
+        REG_INSTR: begin
+            next_state = DECODIFICA;
+            ir_enable = 1'b1;
+            pc_enable = 1'b1;
+        end
+        DECODIFICA: begin
+            next_state = BUSCA_INSTR;
+            if(decoded_instruction == I_HALT)
+                next_state = HALT_P;
+            else if(decoded_instruction == I_LOAD) begin
+                    next_state = LOAD_1;
+                    addr_sel = 1'b1;
+            end
+        end
+        LOAD_1: begin
+             next_state = LOAD_2;   
+             addr_sel = 1'b1;
+             c_sel = 1'b1;
+        end
+        LOAD_2: begin
+             next_state = BUSCA_INSTR;   
+             addr_sel = 1'b1;
+             c_sel = 1'b1;
+             write_reg_enable = 1'b1;
+        end  
+        HALT_P: begin
+            next_state = HALT_P;
+            halt = 1'b1;
+        end
+      endcase      
+  end
 
 endmodule : control_unit
