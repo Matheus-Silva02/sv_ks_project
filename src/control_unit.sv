@@ -27,6 +27,8 @@ typedef enum {
    ,DECODIFICA
    ,LOAD_1
    ,LOAD_2
+   ,STORE_1
+   ,STORE_2
    ,HALT_P
 }state_t;
 
@@ -74,6 +76,9 @@ always_comb begin
             else if(decoded_instruction == I_LOAD) begin
                     next_state = LOAD_1;
                     addr_sel = 1'b1;
+            end else if(decoded_instruction == I_STORE) begin
+                    next_state = STORE_1;
+                    addr_sel = 1'b1;
             end
         end
         LOAD_1: begin
@@ -86,6 +91,15 @@ always_comb begin
              addr_sel = 1'b1;
              c_sel = 1'b1;
              write_reg_enable = 1'b1;
+        end
+        STORE_1: begin
+            next_state = STORE_2; 
+            addr_sel = 1'b1;
+        end
+        STORE_2: begin
+            next_state = BUSCA_INSTR;
+            addr_sel = 1'b1;
+            ram_write_enable = 1'b1;
         end  
         HALT_P: begin
             next_state = HALT_P;

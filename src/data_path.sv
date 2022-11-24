@@ -59,6 +59,8 @@ end
 
 assign C = (c_sel?data_in:ula_out);
 
+assign data_out = A;
+
 always_comb begin
   case(operation)
     2'b00: begin //ADD
@@ -172,28 +174,39 @@ always_comb begin  // DECODER
      endcase
 end
 
-always_comb begin //Banco de registradores
+always_ff @(posedge clk) begin //Banco de registradores
 if(write_reg_enable) begin
-
-unique case(a_addr)
-    2'b00: R0=C;
-    2'b01: R1=C;
-    2'b10: R2=C;
-    2'b11: R3=C;
-endcase
-unique case(b_addr)
-    2'b00: R0=C;
-    2'b01: R1=C;
-    2'b10: R2=C;
-    2'b11: R3=C;
-endcase
-unique case(c_addr)
-    2'b00: R0=C;
-    2'b01: R1=C;
-    2'b10: R2=C;
-    2'b11: R3=C;
-endcase
- end 
+    unique case(a_addr)
+        2'b00: R0=C;
+        2'b01: R1=C;
+        2'b10: R2=C;
+        2'b11: R3=C;
+    endcase
+    unique case(b_addr)
+        2'b00: R0=C;
+        2'b01: R1=C;
+        2'b10: R2=C;
+        2'b11: R3=C;
+    endcase
+    unique case(c_addr)
+        2'b00: R0=C;
+        2'b01: R1=C;
+        2'b10: R2=C;
+        2'b11: R3=C;
+    endcase
+ end
+     case(a_addr)
+        2'b00: A=R0;
+        2'b01: A=R1;
+        2'b10: A=R2;
+        2'b11: A=R3;
+    endcase
+    case(b_addr)
+        2'b00: B=R0;
+        2'b01: B=R1;
+        2'b10: B=R2;
+        2'b11: B=R3;
+    endcase
 end
    
 always_ff @(posedge clk or negedge rst_n)begin //Pc enable
