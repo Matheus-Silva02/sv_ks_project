@@ -35,6 +35,13 @@ typedef enum {
    ,SUB_1
    ,OR_1
    ,AND_1
+   ,MOVE
+   ,BNNEG
+   ,BZERO
+   ,BNEG
+   ,BOV
+   ,BNZERO
+   ,BNOV
 }state_t;
 
 state_t state;
@@ -92,33 +99,134 @@ always_comb begin
                 end
                 I_ADD: begin
                     next_state = ADD_1;
+                    operation=2'b00;
                 end
+                
                 I_SUB: begin
                     next_state = SUB_1;
+                    operation=2'b01;
                 end
                 I_OR: begin
                     next_state = OR_1;
+                    operation=2'b11;
                 end
                 I_AND: begin
                     next_state = AND_1;
+                    operation=2'b10;
                 end
+                   I_BNEG: begin 
+                   next_state=BNEG;
+                   flags_reg_enable=1'b1;  
+                    
+                   end
+                   I_MOVE: begin 
+                   next_state=MOVE;
+                   operation=2'b11;
+                      
+                   end
+                   
+                   I_BZERO: begin 
+                   next_state=BZERO;
+                   flags_reg_enable=1'b1;  
+                    
+                   end
+                   I_BNNEG: begin 
+                   next_state=BNEG;
+                   flags_reg_enable=1'b1;  
+                    
+                   end
+                    I_BOV: begin 
+                   next_state=BOV;
+                   flags_reg_enable=1'b1;  
+                    
+                   end
+                      I_BNZERO: begin 
+                   next_state=BNZERO;
+                   flags_reg_enable=1'b1;  
+                    
+                   end
+                    I_BNOV:begin 
+                   next_state=BNOV;
+                   flags_reg_enable=1'b1;  
+                    
+                   end              
             endcase
         end
+        MOVE:begin
+            next_state=BUSCA_INSTR;
+            write_reg_enable=1'b1;
+            operation=2'b11;
+        end
+
+        BNNEG:begin
+          if(!neg_op)begin
+          branch = 1'b1;
+          pc_enable = 1'b1;
+          end
+          next_state = BUSCA_INSTR;
+
+        end
+         BZERO:begin
+         if(zero_op)begin
+          branch = 1'b1;
+          pc_enable = 1'b1;
+          end
+          next_state = BUSCA_INSTR;
+
+        end 
+            BOV:begin
+        if(unsigned_overflow)begin
+          branch = 1'b1;
+          pc_enable = 1'b1;
+          end
+          next_state = BUSCA_INSTR;
+
+        end 
+
+        BNZERO:begin
+         if(!zero_op)begin
+          branch = 1'b1;
+          pc_enable = 1'b1;
+          end
+          next_state = BUSCA_INSTR;
+
+        end
+        BNOV:begin
+          if(!unsigned_overflow)begin
+          branch = 1'b1;
+          pc_enable = 1'b1;
+          end
+          next_state = BUSCA_INSTR;
+       end
+        
+        BNEG: begin
+              if(neg_op) begin
+               branch = 1'b1;
+               pc_enable = 1'b1;
+          end
+          next_state = BUSCA_INSTR;
+          end
+        
         ADD_1: begin
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
+            operation=2'b00;
         end
+         
         SUB_1: begin
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
+            operation=2'b01;
         end
         OR_1: begin
             next_state = BUSCA_INSTR;
-            write_reg_enable = 1'b1;
+            write_reg_enable = 1'b1; 
+            operation=2'b11;
         end
         AND_1: begin
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
+            operation=2'b10;
         end
         BRANCH: begin
              next_state = BUSCA_INSTR;    
@@ -149,6 +257,8 @@ always_comb begin
             next_state = HALT_P;
             halt = 1'b1;
         end
+        
+        
       endcase      
   end
 
