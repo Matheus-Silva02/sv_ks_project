@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="388148500fs"></ZoomStartTime>
-      <ZoomEndTime time="415748501fs"></ZoomEndTime>
-      <Cursor1Time time="455000000fs"></Cursor1Time>
+      <ZoomStartTime time="542702550fs"></ZoomStartTime>
+      <ZoomEndTime time="626886880fs"></ZoomEndTime>
+      <Cursor1Time time="557072000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="111"></ValueColumnWidth>
+      <ValueColumnWidth column_width="107"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="45" />
+   <WVObjectSize size="46" />
    <wvobject fp_name="/tb_k_and_s/rst_n" type="logic">
       <obj_property name="ElementShortName">rst_n</obj_property>
       <obj_property name="ObjectShortName">rst_n</obj_property>
@@ -209,5 +209,9 @@
    <wvobject fp_name="/tb_k_and_s/uut/datapath_i/R3" type="array">
       <obj_property name="ElementShortName">R3[15:0]</obj_property>
       <obj_property name="ObjectShortName">R3[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_k_and_s/uut/datapath_i/ula_out" type="array">
+      <obj_property name="ElementShortName">ula_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ula_out[15:0]</obj_property>
    </wvobject>
 </wave_config>

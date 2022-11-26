@@ -30,6 +30,11 @@ typedef enum {
    ,STORE_1
    ,STORE_2
    ,HALT_P
+   ,BRANCH
+   ,ADD_1
+   ,SUB_1
+   ,OR_1
+   ,AND_1
 }state_t;
 
 state_t state;
@@ -71,15 +76,54 @@ always_comb begin
         end
         DECODIFICA: begin
             next_state = BUSCA_INSTR;
-            if(decoded_instruction == I_HALT)
-                next_state = HALT_P;
-            else if(decoded_instruction == I_LOAD) begin
+            case(decoded_instruction)
+                I_HALT: next_state = HALT_P;
+                I_LOAD: begin
                     next_state = LOAD_1;
                     addr_sel = 1'b1;
-            end else if(decoded_instruction == I_STORE) begin
+                end
+                I_STORE: begin
                     next_state = STORE_1;
                     addr_sel = 1'b1;
-            end
+                end
+                I_BRANCH: begin
+                    next_state = BRANCH;
+                    branch =1'b1;
+                end
+                I_ADD: begin
+                    next_state = ADD_1;
+                end
+                I_SUB: begin
+                    next_state = SUB_1;
+                end
+                I_OR: begin
+                    next_state = OR_1;
+                end
+                I_AND: begin
+                    next_state = AND_1;
+                end
+            endcase
+        end
+        ADD_1: begin
+            next_state = BUSCA_INSTR;
+            write_reg_enable = 1'b1;
+        end
+        SUB_1: begin
+            next_state = BUSCA_INSTR;
+            write_reg_enable = 1'b1;
+        end
+        OR_1: begin
+            next_state = BUSCA_INSTR;
+            write_reg_enable = 1'b1;
+        end
+        AND_1: begin
+            next_state = BUSCA_INSTR;
+            write_reg_enable = 1'b1;
+        end
+        BRANCH: begin
+             next_state = BUSCA_INSTR;    
+             branch =1'b1;
+             pc_enable =1'b1;
         end
         LOAD_1: begin
              next_state = LOAD_2;   

@@ -59,6 +59,10 @@ end
 
 assign C = (c_sel?data_in:ula_out);
 
+//always_comb begin 
+//   ;
+//end
+
 assign data_out = A;
 
 always_comb begin
@@ -69,8 +73,9 @@ always_comb begin
         sov_f = ov_f ^ cc;     
     end
     2'b01: begin //SUB
-        {cc,ula_out} = A[14:0] - B[14:0];  
-        {ov_f,ula_out[15]} = A[15] - B[15] + cc; 
+        B[15:0]= 1+ ~B[15:0];
+        {cc,ula_out} = A[14:0] + B[14:0];  
+        {ov_f,ula_out[15]} = A[15] + B[15] + cc; 
          sov_f = ov_f ^ cc;    
     end
     2'b10: begin //AND
@@ -174,27 +179,15 @@ always_comb begin  // DECODER
      endcase
 end
 
-always_ff @(posedge clk) begin //Banco de registradores
+always_ff @(posedge clk or negedge rst_n) begin //Banco de registradores
 if(write_reg_enable) begin
-    unique case(a_addr)
-        2'b00: R0=C;
-        2'b01: R1=C;
-        2'b10: R2=C;
-        2'b11: R3=C;
-    endcase
-    unique case(b_addr)
-        2'b00: R0=C;
-        2'b01: R1=C;
-        2'b10: R2=C;
-        2'b11: R3=C;
-    endcase
     unique case(c_addr)
         2'b00: R0=C;
         2'b01: R1=C;
         2'b10: R2=C;
         2'b11: R3=C;
     endcase
- end
+ end 
      case(a_addr)
         2'b00: A=R0;
         2'b01: A=R1;
@@ -211,6 +204,10 @@ end
    
 always_ff @(posedge clk or negedge rst_n)begin //Pc enable
     if(!rst_n) begin
+        R0 <='d0;
+        R1 <='d0;
+        R2 <='d0;
+        R3 <='d0;
         program_counter <= 'd0;
     end 
     else if(pc_enable) begin
