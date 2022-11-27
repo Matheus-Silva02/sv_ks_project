@@ -59,9 +59,7 @@ end
 
 assign C = (c_sel?data_in:ula_out);
 
-//always_comb begin 
-//   ;
-//end
+
 
 assign data_out = A;
 
@@ -97,9 +95,7 @@ assign ula_zero = ~|(ula_out);
 assign ula_neg = ula_out[15];
 
 always_comb begin  // DECODER
-    //a_addr = 'd0; 
-    //b_addr = 'd0; 
-     //c_addr = 'd0; 
+   
      mem_addr = 'd0;
      case(instruction[15:8])
         8'b1000_0001: begin  // LOAD
@@ -120,14 +116,14 @@ always_comb begin  // DECODER
         end
         8'b1010_0001: begin  // ADD
             decoded_instruction = I_ADD;
-            a_addr = instruction[1:0];
-            b_addr = instruction[3:2];
+            b_addr = instruction[1:0];
+            a_addr = instruction[3:2];
             c_addr = instruction[5:4];
         end
         8'b1010_0010: begin  // SUB
             decoded_instruction = I_SUB;
-            a_addr = instruction[1:0];
-            b_addr = instruction[3:2];
+            b_addr = instruction[1:0];
+            a_addr = instruction[3:2];
             c_addr = instruction[5:4];
         end
         8'b1010_0011: begin  // AND

@@ -73,39 +73,47 @@ always_comb begin
       ram_write_enable = 1'b0; 
       halt = 1'b0;
       case(state)
-        BUSCA_INSTR: begin
+      
+          BUSCA_INSTR: begin
             next_state = REG_INSTR;
         end
-        REG_INSTR: begin
+        
+          REG_INSTR: begin
             next_state = DECODIFICA;
             ir_enable = 1'b1;
             pc_enable = 1'b1;
         end
-        DECODIFICA: begin
+        
+          DECODIFICA: begin
             next_state = BUSCA_INSTR;
-            case(decoded_instruction)
+            
+      case(decoded_instruction)
                 I_HALT: next_state = HALT_P;
                 I_LOAD: begin
                     next_state = LOAD_1;
                     addr_sel = 1'b1;
                 end
+                
                 I_STORE: begin
                     next_state = STORE_1;
                     addr_sel = 1'b1;
                 end
+                
                 I_BRANCH: begin
                     next_state = BRANCH;
                     branch =1'b1;
                 end
+                
                 I_ADD: begin
                     next_state = ADD_1;
                     operation=2'b00;
                 end
-                
+       
                 I_SUB: begin
                     next_state = SUB_1;
                     operation=2'b01;
                 end
+                
                 I_OR: begin
                     next_state = OR_1;
                     operation=2'b11;
@@ -114,42 +122,34 @@ always_comb begin
                     next_state = AND_1;
                     operation=2'b10;
                 end
-                   I_BNEG: begin 
-                   next_state=BNEG;
-                   flags_reg_enable=1'b1;  
+                I_BNEG: begin 
+                     next_state=BNEG;
+                end
+                I_MOVE: begin 
+                    next_state=MOVE;
+                    operation=2'b11;  
+                end
+     
+                I_BZERO: begin 
+                    next_state=BZERO;
+                end
                     
-                   end
-                   I_MOVE: begin 
-                   next_state=MOVE;
-                   operation=2'b11;
-                      
-                   end
+                I_BNNEG: begin 
+                    next_state=BNEG;
                    
-                   I_BZERO: begin 
-                   next_state=BZERO;
-                   flags_reg_enable=1'b1;  
+                end
+                I_BOV: begin 
+                    next_state=BOV;
                     
-                   end
-                   I_BNNEG: begin 
-                   next_state=BNEG;
-                   flags_reg_enable=1'b1;  
-                    
-                   end
-                    I_BOV: begin 
-                   next_state=BOV;
-                   flags_reg_enable=1'b1;  
-                    
-                   end
-                      I_BNZERO: begin 
-                   next_state=BNZERO;
-                   flags_reg_enable=1'b1;  
-                    
-                   end
-                    I_BNOV:begin 
-                   next_state=BNOV;
-                   flags_reg_enable=1'b1;  
-                    
-                   end              
+                end
+                I_BNZERO: begin  
+                    next_state=BNZERO; 
+    
+                end
+                I_BNOV:begin 
+                    next_state=BNOV;
+              
+                end              
             endcase
         end
         MOVE:begin
@@ -208,22 +208,26 @@ always_comb begin
           end
         
         ADD_1: begin
+        flags_reg_enable=1'b1;
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
             operation=2'b00;
         end
          
         SUB_1: begin
+        flags_reg_enable=1'b1;
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
             operation=2'b01;
         end
         OR_1: begin
+         flags_reg_enable=1'b1;
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1; 
             operation=2'b11;
         end
         AND_1: begin
+         flags_reg_enable=1'b1;
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
             operation=2'b10;
