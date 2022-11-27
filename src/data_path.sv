@@ -64,6 +64,7 @@ assign C = (c_sel?data_in:ula_out);
 assign data_out = A;
 
 always_comb begin
+
   case(operation)
     2'b00: begin //ADD
         {cc,ula_out[14:0]} = A[14:0] + B[14:0];  
@@ -71,8 +72,8 @@ always_comb begin
         sov_f = ov_f ^ cc;     
     end
     2'b01: begin //SUB
-        B[15:0]= 1+ ~B[15:0];
-        {cc,ula_out} = A[14:0] + B[14:0];  
+        B[15:0]= ~B[15:0]+ 1;
+        {cc,ula_out[14:0]} = A[14:0] + B[14:0];  
         {ov_f,ula_out[15]} = A[15] + B[15] + cc; 
          sov_f = ov_f ^ cc;    
     end
