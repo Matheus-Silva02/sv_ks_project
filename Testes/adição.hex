@@ -1,0 +1,36 @@
+; Programa de adição,o resultado fica no registrador.
+;  Autor Lucas Pasin
+0000
+815D
+824F
+A10B
+910B
+0107
+0000
+0000
+FFFF
+0000
+0000
+FFFF
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+0000
+1a57
+0000
+0000
+; end of file
+; end of file

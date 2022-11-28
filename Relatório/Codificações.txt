@@ -1,0 +1,1 @@
+Usamos 4 bits para a decodified_instructions

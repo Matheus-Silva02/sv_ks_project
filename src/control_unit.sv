@@ -54,12 +54,6 @@ always_ff @(posedge clk or negedge rst_n) begin
         state <= next_state;
 end
 
-always_comb begin
-    case(state)
-       BUSCA_INSTR: next_state = DECODIFICA;
-       DECODIFICA: next_state = BUSCA_INSTR;
-    endcase
-end
 
 always_comb begin
       branch = 1'b0;       

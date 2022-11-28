@@ -1,0 +1,29 @@
+Relatórios:
+Link repositório: https://github.com/Matheus-Silva02/sv_ks_project
+
+Matheus Silva: 
+Contribuição para o projeto:Todo o trabalho foi feito em conjunto (exceto por um commit em que ele fez o decoder sozinho) por meio de reuniões e encontros via discord, 
+então ambos contribuíram em todo o trabalho,exceto o decoder que eu não tive participação.
+
+Comentários/impressões sobre o desenvolvimento: Foi interessante e desafiador, consegui aplicar de maneira prática alguns conceitos aprendidos em aula como o diagrama
+da maquina de estados. Na parte final do projeto quando precisamos testar,criamos alguns testes para testa-lo,mas queriamos fazer mais testes,então, tivemos a idéia
+de entrar no fork dos outros colegas e testar os progrmas de testes .hex deles para ver o funcionamento do nosso trabalho.Além disso,achei o github e o git ferramentas
+muito uteis e práticas.
+
+Principais dificuldades pessoais encontradas:O meu principal problema em questão a esse trabalho foi a parte da sintaxe , que com  tempo e prática foi se resolvendo.
+Além disso,outra dificuldade foi a parte de começar o trabalho,sempre que algo novo era descoberto uma duvida nova aparecia.Tive uma certa dificuldade também em me
+adaptar a usar o github e o git,mas uma dificuldade muito menor que as outras.
+
+Lucas Pasin:
+
+Comentários/Impressões sobre o desenvolvimento e principais dificuldades pessoais encontradas:
+
+O principal desafio do trabalho foi começa-lo, eu nao tinha nenhuma ideia de como fazer ele, mas como pode ver pelos commit, 
+nos estavamos tentando. O que mudou o rumo do trabalho foi quando a gente se reuniu, e logo em seguida o professor lançou um video,
+explicando como testa e como fazer o trabalho em geral.  Com nos podendo testar nossas mudanças,  foi muito mais divertido fazer o trabalho,
+eu nao tinha até antes do video correlacionado o control do trabalho com a maquina de estados, a sintaxe do verilog é bem parecida com a do C
+entao so tive dificulades no começo. Eu achei o git e github ferramentas muito util, tanto para o professor ver o progresso do trabalho quanto aos alunos
+na colaboração  e facilidade de mandar e receber mudaças no trabalho e ter um repositorio para guarda-lo. 
+Eu sinto que eu compreendi mais a materia.
+
+Contribuição:Tirando um commmit,que eu fiz logo após ver o vídeo,nós fizemos todo o trabalho pelo discord.

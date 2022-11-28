@@ -1,12 +1,12 @@
-;Programa de Teste 1
-;Autor Joao Leonardo Fragoso
+;Subtração resultado positivo e negativo,resultados guardados no 12 e no 13
+;Autor: Matheus Silva
 0000
 815D
-817E
-A20E
-820C
-A21B
-822D
+817E 
+A20E 
+820C 
+A21B 
+822D 
 0000
 FFFF
 0000
